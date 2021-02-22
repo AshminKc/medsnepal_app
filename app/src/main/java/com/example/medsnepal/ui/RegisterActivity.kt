@@ -83,14 +83,14 @@ class RegisterActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val repository = UserRepository()
                     val response = repository.registerUser(user)
-                    if (response.success == true) {
+                    if (response.success == false) {
                         ServiceBuilder.token = response.token
                         withContext(Main) {
-                            Snackbar.make(linearLayout, "You are registered successfully", Snackbar.LENGTH_LONG).show()
+                            Snackbar.make(linearLayout, "Some issues at server end", Snackbar.LENGTH_LONG).show()
                         }
                     } else {
                         withContext(Main) {
-                            Snackbar.make(linearLayout, ""+response.message, Snackbar.LENGTH_LONG).show()
+                            Snackbar.make(linearLayout, "" + response.message, Snackbar.LENGTH_LONG).show()
                         }
                     }
                 }

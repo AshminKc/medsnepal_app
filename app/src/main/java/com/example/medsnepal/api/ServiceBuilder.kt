@@ -3,6 +3,7 @@ package com.example.medsnepal.api
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object ServiceBuilder {
 
@@ -11,6 +12,8 @@ object ServiceBuilder {
     var token:String?=null
     //network protocol like http
     private val okHttp= OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
     //building retrofit
     //retrofit for communicatiion between two
     private val retrofitBuilder= Retrofit.Builder()
