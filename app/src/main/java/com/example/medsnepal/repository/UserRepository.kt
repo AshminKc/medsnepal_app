@@ -3,7 +3,9 @@ package com.example.medsnepal.repository
 import com.example.medsnepal.api.MyAPIRequest
 import com.example.medsnepal.api.ServiceBuilder
 import com.example.medsnepal.api.UserAPI
+import com.example.medsnepal.entity.Signin
 import com.example.medsnepal.entity.User
+import com.example.medsnepal.response.LoginResponse
 import com.example.medsnepal.response.RegisterResponse
 
 class UserRepository :
@@ -13,6 +15,12 @@ class UserRepository :
     suspend fun registerUser(user: User): RegisterResponse{
         return apiRequest {
             api.registerUser(user)
+        }
+    }
+
+    suspend fun loginUser(signin: Signin): LoginResponse{
+        return apiRequest {
+            api.loginUser(signin)
         }
     }
        /* suspend fun checkuser(username: String, password: String): LoginResponse {

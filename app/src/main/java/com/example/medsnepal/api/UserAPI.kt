@@ -1,6 +1,8 @@
 package com.example.medsnepal.api
 
+import com.example.medsnepal.entity.Signin
 import com.example.medsnepal.entity.User
+import com.example.medsnepal.response.LoginResponse
 import com.example.medsnepal.response.RegisterResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -13,4 +15,9 @@ public interface UserAPI {
     suspend fun registerUser(
         @Body user: User
     ): Response<RegisterResponse>
+
+    @POST("users/signin")
+    suspend fun loginUser(
+            @Body signin: Signin
+    ): Response<LoginResponse>
 }
