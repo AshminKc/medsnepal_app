@@ -7,7 +7,7 @@
     android:gravity="center"
     android:layout_margin="10dp"
     android:id="@+id/linearActivity"
-    tools:context=".ui.LoginActivity">
+    tools:context=".ui.RegisterActivity">
 
     <ImageView
         android:layout_width="178dp"

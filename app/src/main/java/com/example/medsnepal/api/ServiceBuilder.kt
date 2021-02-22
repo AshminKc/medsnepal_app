@@ -12,14 +12,16 @@ object ServiceBuilder {
     var token:String?=null
     //network protocol like http
     private val okHttp= OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(1000, TimeUnit.SECONDS)
+            .readTimeout(1000, TimeUnit.SECONDS)
+
     //building retrofit
     //retrofit for communicatiion between two
     private val retrofitBuilder= Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create()) //
         .client(okHttp.build())
+
     //Create retrofit instance
     private val retrofit= retrofitBuilder.build()
     //Generic function

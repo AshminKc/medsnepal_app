@@ -7,6 +7,8 @@ import com.example.medsnepal.response.RegisterResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 public interface UserAPI {
@@ -16,8 +18,10 @@ public interface UserAPI {
         @Body user: User
     ): Response<RegisterResponse>
 
+    @FormUrlEncoded
     @POST("users/signin")
-    suspend fun loginUser(
-            @Body signin: Signin
+    suspend fun checkuser(
+            @Field("email")email:String,
+            @Field("password")password:String
     ): Response<LoginResponse>
 }

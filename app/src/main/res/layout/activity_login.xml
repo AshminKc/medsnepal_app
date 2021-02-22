@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_margin="10dp"
-    android:id="@+id/linearActivity"
+    android:id="@+id/linearLayout"
     tools:context=".ui.LoginActivity">
 
     <ImageView
