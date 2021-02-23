@@ -3,6 +3,7 @@ package com.example.medsnepal.repository
 import com.example.medsnepal.api.MyAPIRequest
 import com.example.medsnepal.api.ServiceBuilder
 import com.example.medsnepal.api.UserAPI
+import com.example.medsnepal.entity.ProductList
 import com.example.medsnepal.entity.Signin
 import com.example.medsnepal.entity.User
 import com.example.medsnepal.response.LoginResponse
@@ -23,6 +24,12 @@ class UserRepository :
             api.checkuser(email,password)
         }
     }
+
+   /* suspend fun productlist() : ProductList{
+        return  apiRequest {
+            api.productlist()
+        }
+    }*/
        /* suspend fun checkuser(username: String, password: String): LoginResponse {
             return apiRequest {
                 myApi.checkUser(username, password)

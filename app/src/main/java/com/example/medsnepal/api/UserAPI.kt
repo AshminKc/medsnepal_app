@@ -1,5 +1,7 @@
 package com.example.medsnepal.api
 
+import com.example.medsnepal.entity.Product
+import com.example.medsnepal.entity.ProductList
 import com.example.medsnepal.entity.Signin
 import com.example.medsnepal.entity.User
 import com.example.medsnepal.response.LoginResponse
@@ -24,4 +26,7 @@ public interface UserAPI {
             @Field("email")email:String,
             @Field("password")password:String
     ): Response<LoginResponse>
+
+    @POST("products/list")
+    fun productlist(): Call<Product>
 }

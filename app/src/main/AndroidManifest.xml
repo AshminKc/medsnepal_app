@@ -16,9 +16,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/Theme.MedsNepal">
         <activity
-            android:name=".ui.SplashScreen"
+            android:name=".ui.MainActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/Theme.MedsNepal.NoActionBar">
@@ -37,7 +38,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MedsNepal.NoActionBar"/>
 
-        <activity android:name=".ui.MainActivity"
+        <activity android:name=".ui.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MedsNepal.NoActionBar"/>
     </application>
