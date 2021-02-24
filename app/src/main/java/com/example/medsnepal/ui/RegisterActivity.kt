@@ -71,7 +71,7 @@ class RegisterActivity : AppCompatActivity() {
                 Snackbar.make(linearLayout, "Confirm Password is required", Snackbar.LENGTH_LONG).show()
             } else if (password != cpassword) {
                 Snackbar.make(linearLayout, "Password doesn't match", Snackbar.LENGTH_LONG).show()
-            } else { 
+            } else {
                 val user = User(name = name, email = email, password = password)
                 CoroutineScope(Dispatchers.IO).launch {
                     val repository = UserRepository()
