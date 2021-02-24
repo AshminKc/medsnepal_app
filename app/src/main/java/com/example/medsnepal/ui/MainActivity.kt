@@ -1,9 +1,11 @@
 package com.example.medsnepal.ui;
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -22,18 +24,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.medsnepal.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var frameLayout: FrameLayout
+    private lateinit var txtEmail: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        txtEmail = findViewById(R.id.userEmail)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        val intent: Intent = intent
+        val data = intent.getStringExtra("value")
+        txtEmail.setText(data)
 
         val actionbar: ActionBar? = supportActionBar
         actionbar?.apply {
@@ -56,7 +66,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
-
         loadFragment(HomeFragment())
 
     }
@@ -94,6 +103,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_contact-> {
                 loadFragment(ContactFragment())
+            }
+            R.id.nav_logout->{
+                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                finish()
+
             }
 
         }

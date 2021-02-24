@@ -14,8 +14,6 @@ object ServiceBuilder {
     var token:String?=null
     //network protocol like http
     private val okHttp= OkHttpClient.Builder()
-            .connectTimeout(1000, TimeUnit.SECONDS)
-            .readTimeout(1000, TimeUnit.SECONDS)
 
     //building retrofit
     //retrofit for communicatiion between two
@@ -31,23 +29,4 @@ object ServiceBuilder {
         return retrofit.create(serviceType)
     }
 
-    val getClient: UserAPI
-        get() {
-
-            val gson = GsonBuilder()
-                    .setLenient()
-                    .create()
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-            val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-            val retrofit = Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .client(client)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build()
-
-            return retrofit.create(UserAPI::class.java)
-
-        }
 }

@@ -21,6 +21,7 @@ import com.example.medsnepal.adapter.ProductAdapter
 import com.example.medsnepal.api.MyAPIRequest
 import com.example.medsnepal.api.ServiceBuilder
 import com.example.medsnepal.api.UserAPI
+import com.example.medsnepal.entity.AllProduct
 import com.example.medsnepal.entity.Product
 import com.example.medsnepal.ui.ProductsFragment
 import retrofit2.Call
@@ -47,9 +48,8 @@ class HomeFragment : Fragment() {
 
         recyclerView = rootView.findViewById(R.id.recyclerView)
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = ProductAdapter(dataList)
+        recyclerView.layoutManager = GridLayoutManager(context, 2)
+
         progerssProgressDialog=ProgressDialog(context)
         progerssProgressDialog.setTitle("Loading")
         progerssProgressDialog.setCancelable(false)
@@ -62,20 +62,27 @@ class HomeFragment : Fragment() {
     }
 
     private fun getAllData(){
-        val call: Call<Product> = ServiceBuilder.getClient.productlist()
-        call.enqueue(object : Callback<Product> {
+        val request = ServiceBuilder.buildService(UserAPI::class.java)
+        val call = request.productlist()
 
-            override fun onResponse(call: Call<Product>, response: Response<Product>) {
-                progerssProgressDialog.dismiss()
-                dataList.addAll(response.body())
-                recyclerView.adapter = ProductAdapter(dataList)
-                recyclerView.adapter = adapter
-                recyclerView.adapter?.notifyDataSetChanged()
-                Log.d(TAG, "onResponse: ")
+        call.enqueue(object : Callback<AllProduct> {
+
+            override fun onResponse(call: Call<AllProduct>, response: Response<AllProduct>) {
+
+                if (response.isSuccessful) {
+                    progerssProgressDialog.dismiss()
+                    recyclerView.apply {
+                        setHasFixedSize(true)
+                        layoutManager = GridLayoutManager(context, 2)
+                        adapter = ProductAdapter(response.body()!!.data)
+                        recyclerView.adapter = adapter
+                        recyclerView.adapter?.notifyDataSetChanged()
+                        Log.d(TAG, "onResponse: ")
+                    }
+                }
             }
 
-            override fun onFailure(call: Call<Product>, t: Throwable) {
-                progerssProgressDialog.dismiss()
+            override fun onFailure(call: Call<AllProduct>, t: Throwable) {
                 Log.d(TAG, "onFailure: " + t.toString())
             }
 

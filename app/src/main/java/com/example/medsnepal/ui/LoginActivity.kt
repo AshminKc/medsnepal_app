@@ -20,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.Call
 import java.lang.Exception
 import java.security.GeneralSecurityException
 
@@ -29,7 +30,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var etPassword: TextInputEditText
     private lateinit var btnLogin: Button
     private lateinit var btnNewRegister : Button
-    private lateinit var chkRememberMe: CheckBox
     private lateinit var linearLayout: LinearLayout
     var loginHashPass:String?=null
     private val TAG = "LoginActivity"
@@ -42,19 +42,12 @@ class LoginActivity : AppCompatActivity() {
         etPassword = findViewById(R.id.etPassword)
         btnLogin = findViewById(R.id.btnLogin)
         btnNewRegister = findViewById(R.id.btnNewRegister)
-        chkRememberMe = findViewById(R.id.chkRememberMe)
         linearLayout = findViewById(R.id.linearLayout)
-
-//        val sharedPref = getSharedPreferences("MyPref", MODE_PRIVATE)
-//        if (sharedPref.getBoolean("logged", true)) {
-//            startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
-//        }
 
         btnNewRegister.setOnClickListener {
             startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
         btnLogin.setOnClickListener {
-            //login()
             val email = etEmail.text.toString()
             val password = etPassword.text.toString()
 
@@ -70,33 +63,32 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    public fun login(){
+
+    private fun login(){
         val email = etEmail.text.toString()
         val password = etPassword.text.toString()
 
-        /*try {
-            loginHashPass = AESCrypt.encrypt(password1, "Password is hashed")
-        } catch (e: GeneralSecurityException) {
-            e.toString()
-        }*/
-
+        val user = Signin(email = email, password = password)
         CoroutineScope(Dispatchers.IO).launch {
             try{
                 val repository = UserRepository()
-                val response = repository.checkuser(email,password)
+                val response = repository.checkuser(user)
                 Log.d(TAG, "login: email and password")
-                if(response.success == true){
+                if(response.success == false){
                     Log.d(TAG, "login: success")
                     ServiceBuilder.token = "Bearer"+response.token
-                    Snackbar.make(linearLayout,"True",Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(linearLayout,""+response.message,Snackbar.LENGTH_LONG).show()
                 } else {
                     withContext(Dispatchers.Main){
-                        Snackbar.make(linearLayout,"fALSE",Snackbar.LENGTH_LONG).show()
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        intent.putExtra("value", response.name)
+                        startActivity(intent)
+                       // startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     }
                 }
             }catch (e: Exception){
                 withContext(Dispatchers.Main){
-                    Snackbar.make(linearLayout,"Error In Login",Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(linearLayout,"Invalid Email or Password",Snackbar.LENGTH_LONG).show()
                     Log.d(TAG, "login: Exception " + e.toString())
                 }
             }

@@ -1,9 +1,6 @@
 package com.example.medsnepal.api
 
-import com.example.medsnepal.entity.Product
-import com.example.medsnepal.entity.ProductList
-import com.example.medsnepal.entity.Signin
-import com.example.medsnepal.entity.User
+import com.example.medsnepal.entity.*
 import com.example.medsnepal.response.LoginResponse
 import com.example.medsnepal.response.RegisterResponse
 import retrofit2.Call
@@ -20,13 +17,11 @@ public interface UserAPI {
         @Body user: User
     ): Response<RegisterResponse>
 
-    @FormUrlEncoded
     @POST("users/signin")
     suspend fun checkuser(
-            @Field("email")email:String,
-            @Field("password")password:String
+        @Body signin: Signin
     ): Response<LoginResponse>
 
     @POST("products/list")
-    fun productlist(): Call<Product>
+    fun productlist(): Call<AllProduct>
 }

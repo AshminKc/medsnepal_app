@@ -16,6 +16,7 @@ import com.example.medsnepal.entity.User
 import com.example.medsnepal.repository.UserRepository
 import com.google.android.material.snackbar.Snackbar
 import com.scottyab.aescrypt.AESCrypt
+import com.toxicbakery.bcrypt.Bcrypt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
@@ -33,8 +34,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var bnRegister: Button
     private lateinit var bnLogin:Button
     private lateinit var linearLayout: LinearLayout
-    var hashPass:String?=null
-    var isAdmin:String?=null
     private val TAG = "RegisterActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,11 +59,6 @@ class RegisterActivity : AppCompatActivity() {
             val password = edtPassword.text.toString()
             val cpassword = edtConfirmPassword.text.toString()
 
-            try {
-                hashPass = AESCrypt.encrypt(password, "Password is hashed")
-            } catch (e: GeneralSecurityException) {
-                e.toString()
-            }
             if (name.isNullOrEmpty()) {
                 Snackbar.make(linearLayout, "Name is required", Snackbar.LENGTH_LONG).show()
             } else if (email.isNullOrEmpty() && name.isNotEmpty()) {
@@ -78,8 +72,7 @@ class RegisterActivity : AppCompatActivity() {
             } else if (password != cpassword) {
                 Snackbar.make(linearLayout, "Password doesn't match", Snackbar.LENGTH_LONG).show()
             } else {
-                //shared preferences code here
-                val user = User(name = name, email = email, password = hashPass)
+                val user = User(name = name, email = email, password = password)
                 CoroutineScope(Dispatchers.IO).launch {
                     val repository = UserRepository()
                     val response = repository.registerUser(user)
